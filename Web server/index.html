@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Homepage</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: linear-gradient(to bottom, #1e3c72, #2a5298);
+            color: white;
+            text-align: center;
+        }
+
+        header {
+            padding: 20px;
+            background-color: #1e3c72;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+        }
+
+        h1 {
+            margin: 0;
+            font-size: 2.5em;
+            color: #fff;
+        }
+
+        .button-container {
+            margin-top: 20px;
+        }
+
+        .button {
+            padding: 15px 30px;
+            background-color: #1e3c72;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-size: 1.5em;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            text-decoration: none;
+        }
+
+        .button:hover {
+            background-color: #2a5298;
+        }
+
+        .admin-login {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            padding: 10px 20px;
+            background-color: #ff4d4d;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-size: 1.2em;
+        }
+
+        .admin-login:hover {
+            background-color: #ff3333;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Welcome to GameUpload!</h1>
+    </header>
+    <div class="button-container">
+        <a href="404_not_found.html" class="button">404 Test</a>
+        <a href="gallery.html" class="button">View Gallery</a>
+        <a href="upload.html" class="button">Upload File</a>
+    </div>
+
+    <!-- Admin Login Button -->
+    <a href="admin.html" class="admin-login">Admin Login</a>
+</body>
+</html>

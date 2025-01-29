@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gallery</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: linear-gradient(to bottom, #1e3c72, #2a5298);
+            color: white;
+            text-align: center;
+        }
+
+        header {
+            padding: 20px;
+            background-color: #1e3c72;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+        }
+
+        h1 {
+            margin: 0;
+            font-size: 2.5em;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 20px auto;
+            padding: 20px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+        }
+
+        .file-list {
+            margin-top: 30px;
+            color: white;
+            list-style-type: none;
+            padding: 0;
+        }
+
+        .file-item {
+            background: rgba(255, 255, 255, 0.3);
+            padding: 10px;
+            border-radius: 5px;
+            margin-bottom: 10px;
+        }
+
+        .delete-btn {
+            background-color: #ff4d4d;
+            color: white;
+            padding: 5px 10px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .delete-btn:hover {
+            background-color: #ff3333;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Gallery</h1>
+    </header>
+    <div class="container">
+        <p>Your uploaded files:</p>
+        <ul class="file-list" id="fileList"></ul>
+    </div>
+
+    <script>
+        async function fetchFiles() {
+            const response = await fetch('/files');  // Fetch the file list from the new endpoint
+            const files = await response.json();
+            const fileListContainer = document.getElementById('fileList');
+
+            files.forEach(file => {
+                const listItem = document.createElement('li');
+                listItem.className = 'file-item';
+                listItem.innerHTML = `
+                    <a href="${file}" download>${file}</a>
+                    <button class="delete-btn" onclick="deleteFile('${file}')">Delete</button>
+                `;
+                fileListContainer.appendChild(listItem);
+            });
+        }
+
+        async function deleteFile(fileName) {
+            const response = await fetch('/delete/' + fileName, { method: 'DELETE' });
+            if (response.ok) {
+                alert(`File "${fileName}" deleted successfully.`);
+                window.location.reload();
+            } else {
+                alert('Failed to delete the file.');
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', fetchFiles);
+    </script>
+</body>
+</html>

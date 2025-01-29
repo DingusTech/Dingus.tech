@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gallery</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: linear-gradient(to bottom, #1e3c72, #2a5298);
+            color: white;
+            text-align: center;
+        }
+
+        header {
+            padding: 20px;
+            background-color: #1e3c72;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+        }
+
+        h1 {
+            margin: 0;
+            font-size: 2.5em;
+            color: #fff;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 20px auto;
+            padding: 20px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+        }
+
+        .search-bar {
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .search-bar input {
+            width: 50%;
+            padding: 10px;
+            font-size: 1.2em;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            outline: none;
+            background-color: rgba(255, 255, 255, 0.3);
+            color: white;
+        }
+
+        .gallery {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 15px;
+            margin-top: 20px;
+            padding: 10px;
+        }
+
+        .gallery a {
+            display: block;
+            padding: 20px;
+            text-align: center;
+            background: rgba(255, 255, 255, 0.3);
+            color: white;
+            text-decoration: none;
+            border-radius: 10px;
+            transition: transform 0.3s, background 0.3s;
+        }
+
+        .gallery a:hover {
+            background: rgba(255, 255, 255, 0.5);
+            transform: translateY(-5px);
+        }
+
+        .back-button {
+            margin-top: 20px;
+            text-align: center;
+        }
+
+        .back-button a {
+            text-decoration: none;
+            color: white;
+            background: #1e3c72;
+            padding: 10px 20px;
+            border: 2px solid #fff;
+            border-radius: 5px;
+            font-size: 1.2em;
+        }
+
+        .back-button a:hover {
+            background: #2a5298;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Gallery</h1>
+    </header>
+    <div class="container">
+        <div class="search-bar">
+            <input type="text" id="search" placeholder="Search files..." onkeyup="filterGallery()">
+        </div>
+        <div class="gallery" id="gallery">
+            <!-- File links will be dynamically added here -->
+        </div>
+        <div class="back-button">
+            <a href="index.html">Back to Homepage</a>
+        </div>
+    </div>
+    <script>
+        const galleryContainer = document.getElementById('gallery');
+
+        // Fetch files from the server
+        fetch('/uploads')
+            .then(response => response.json())
+            .then(files => {
+                // Clear the gallery container
+                galleryContainer.innerHTML = '';
+
+                files.forEach(file => {
+                    const link = document.createElement('a');
+                    link.href = `/uploads/${file}`;
+                    link.textContent = file;
+                    link.target = "_blank";
+                    galleryContainer.appendChild(link);
+                });
+            })
+            .catch(err => {
+                console.error('Error fetching files:', err);
+            });
+
+        // Filter files in the gallery based on search input
+        function filterGallery() {
+            const searchValue = document.getElementById('search').value.toLowerCase();
+            const links = galleryContainer.getElementsByTagName('a');
+            for (let link of links) {
+                const fileName = link.textContent.toLowerCase();
+                link.style.display = fileName.includes(searchValue) ? 'block' : 'none';
+            }
+        }
+    </script>
+</body>
+</html>
